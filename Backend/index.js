@@ -1,19 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const UserModal = require('./models/User')
-const app = express()
-app.use(cors())
-app.use(express.json())
+const UserModal = require('./models/User');
+const app = express();
 
+app.use(cors());
+app.use(express.json());
 
-app.post("/createUser" , (req, res)=>{
-    UserModal.create(res.body)
-    .then(users=>res.json(users))
-    .catch(err =>res.json(err))
+app.post("/createUser", (req, res) => {
+    UserModal.create(req.body)  
+        .then(user => res.json(user))
+        .catch(err => res.json(err));
+});
+
+mongoose.connect('mongodb://localhost:27017/crud', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 })
-
-mongoose.connect ='mongodb+srv://shraddha:Shraddha24@atlascluster.0dsjmdo.mongodb.net/crud?retryWrites=true&w=majority&appName=AtlasCluster'
-app.listen(3001, ()=>{
-     console.log("Serve is Running");
+.then(() => {
+    console.log("Database is connected");
 })
+.catch(err => {
+    console.log("Database connection error: ", err);
+});
+
+app.listen(3001, () => {
+    console.log("Server is running");
+});
