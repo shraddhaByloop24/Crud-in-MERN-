@@ -13,6 +13,12 @@ app.post("/createUser", (req, res) => {
         .catch(err => res.json(err));
 });
 
+app.get("/getUsers", (req, res) => {
+    UserModal.find({})
+        .then(users => res.json(users)) 
+        .catch(err => res.json(err));
+});
+
 mongoose.connect('mongodb://localhost:27017/crud', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
